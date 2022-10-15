@@ -52,7 +52,7 @@ public final class Main extends JavaPlugin {
   }
   
   public void onEnable() {
-    Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + " starting up...");
+    Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + " starting up...");
     this.config.addDefault("enable-plugin", Boolean.valueOf(true));
     this.config.addDefault("lettuce.enabled", Boolean.valueOf(true));
     this.config.addDefault("lettuce.drop-rate", Double.valueOf(0.3D));
@@ -67,7 +67,7 @@ public final class Main extends JavaPlugin {
     this.config.options().copyDefaults(true);
     saveConfig();
     if (((String)Objects.<String>requireNonNull(plugin.getConfig().getString("enable-plugin"))).equalsIgnoreCase("false")) {
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " You have disabled the plugin in the config...");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " You have disabled the plugin in the config...");
       Bukkit.getPluginManager().disablePlugin((Plugin)this);
       return;
     } 
@@ -77,74 +77,74 @@ public final class Main extends JavaPlugin {
     this.bean = new Bean();
     registerConfig();
     registerGlow();
-    Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " finished!");
+    Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " finished!");
   }
   
   public void onDisable() {
     if (((String)Objects.<String>requireNonNull(plugin.getConfig().getString("enable-plugin"))).equalsIgnoreCase("true")) {
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " shutting down...");
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + " Goodbye!");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " shutting down...");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + " Goodbye!");
     } else {
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabling plugin...");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabling plugin...");
     } 
   }
   
   public static void registerConfig() {
-    Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + " registering substances...");
+    Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + " registering substances...");
     LettuceStatus = plugin.getConfig().getString("lettuce.enabled");
     LettuceRate = Double.valueOf(Double.parseDouble(Objects.<String>requireNonNull(plugin.getConfig().getString("lettuce.drop-rate"))));
     if (LettuceRate.isNaN())
       plugin.getConfig().set("lettuce.drop-rate", Double.valueOf(0.3D)); 
     if (LettuceStatus != null && LettuceStatus.equalsIgnoreCase("true")) {
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled lettuce");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled lettuce");
     } else {
       LettuceStatus = "false";
       plugin.getConfig().set("lettuce.enabled", Boolean.valueOf(false));
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled lettuce");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled lettuce");
     } 
     SugarStatus = plugin.getConfig().getString("sugar.enabled");
     SugarRate = Double.valueOf(Double.parseDouble(Objects.<String>requireNonNull(plugin.getConfig().getString("sugar.drop-rate"))));
     if (SugarRate.isNaN())
       plugin.getConfig().set("sugar.drop-rate", Double.valueOf(0.3D)); 
     if (SugarStatus != null && SugarStatus.equalsIgnoreCase("true")) {
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled sugar");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled sugar");
     } else {
       SugarStatus = "false";
       plugin.getConfig().set("sugar.enabled", Boolean.valueOf(false));
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled sugar");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled sugar");
     } 
     BeanStatus = plugin.getConfig().getString("bean.enabled");
     BeanRate = Double.valueOf(Double.parseDouble(Objects.<String>requireNonNull(plugin.getConfig().getString("bean.drop-rate"))));
     if (BeanRate.isNaN())
       plugin.getConfig().set("bean.drop-rate", Double.valueOf(0.3D)); 
     if (BeanStatus != null && BeanStatus.equalsIgnoreCase("true")) {
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled bean");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled bean");
     } else {
       BeanStatus = "false";
       plugin.getConfig().set("bean.enabled", Boolean.valueOf(false));
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled bean");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled bean");
     } 
     CrystalStatus = plugin.getConfig().getString("crystals.enabled");
     CrystalRate = Double.valueOf(Double.parseDouble(Objects.<String>requireNonNull(plugin.getConfig().getString("crystals.drop-rate"))));
     if (CrystalRate.isNaN())
       plugin.getConfig().set("crystals.drop-rate", Double.valueOf(0.3D)); 
     if (CrystalStatus != null && CrystalStatus.equalsIgnoreCase("true")) {
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled crystals");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled crystals");
     } else {
       CrystalStatus = "false";
       plugin.getConfig().set("crystals.enabled", Boolean.valueOf(false));
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled crystals");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled crystals");
     } 
     SpecialSauceStatus = plugin.getConfig().getString("special-sauce.enabled");
     SpecialSauceRate = Double.valueOf(Double.parseDouble(Objects.<String>requireNonNull(plugin.getConfig().getString("special-sauce.drop-rate"))));
     if (SpecialSauceRate.isNaN())
       plugin.getConfig().set("special-sauce.drop-rate", Double.valueOf(0.3D)); 
     if (SpecialSauceStatus != null && SpecialSauceStatus.equalsIgnoreCase("true")) {
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled special sauce");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled special sauce");
     } else {
       SpecialSauceStatus = "false";
       plugin.getConfig().set("special-sauce.enabled", Boolean.valueOf(false));
-      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled special sauce");
+      Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled special sauce");
     } 
   }
   

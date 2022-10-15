@@ -77,7 +77,7 @@ public class Sugar implements Listener {
                   if (Sugar.this.SugarList.get(id) == null)
                     return; 
                   p.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ()), 10);
-                  p.setGliding(true);
+                  //p.setGliding(true);
                   Sugar.this.SugarFly.add(p.getUniqueId());
                   p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 125, 10, true));
                   p.sendMessage("" + ChatColor.DARK_PURPLE + ChatColor.ITALIC + "boss music plays");
