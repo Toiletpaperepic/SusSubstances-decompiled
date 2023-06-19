@@ -21,16 +21,16 @@ public class Bean {
   public Plugin plugin = (Plugin)Main.getPlugin(Main.class);
   
   public ItemStack getBean() {
-    ItemStack sugar = new ItemStack(Material.COCOA_BEANS);
-    sugar.setAmount(1);
-    ItemMeta m = sugar.getItemMeta();
+    ItemStack bean = new ItemStack(Material.COCOA_BEANS);
+    bean.setAmount(1);
+    ItemMeta m = bean.getItemMeta();
     assert m != null;
     NamespacedKey key = new NamespacedKey(this.plugin, this.plugin.getDescription().getName());
     Glow glow = new Glow(key);
     m.addEnchant(glow, 1, true);
     m.setDisplayName(ChatColor.DARK_PURPLE + "Bean");
-    sugar.setItemMeta(m);
-    return sugar;
+    bean.setItemMeta(m);
+    return bean;
   }
   
   public void triggerHigh(final Player p) {

@@ -1,9 +1,9 @@
 name: SusSubstances-decompiled
 main: io.github.toiletpaperepic.SusSubstances_decompiled.Main
-version: 0.0.1-SNAPSHOT
+version: 0.0.3-SNAPSHOT
 api-version: 1.19
-authors: [ MasterCoal , toiletpaperepic]
-website: net.walmartmc
+authors: [MasterCoal , toiletpaperepic]
+website: https://github.com/Toiletpaperepic/WallMC-SusSubstances
 commands:
   wapi:
     permission: walmartmc.sussy

@@ -32,10 +32,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 public class Events implements Listener, CommandExecutor {
+  public Crystals crystal = new Crystals();
   public Lettuce lettuce = new Lettuce();
-  
   public Sugar sugar = new Sugar();
-  
   public Bean bean = new Bean();
   
   public Events(Main main) {
@@ -88,7 +87,8 @@ public class Events implements Listener, CommandExecutor {
     return true;
   }
   
-  @EventHandler
+  @SuppressWarnings("deprecation")
+@EventHandler
   public void onVelEvent(PlayerVelocityEvent event) {
     Player p = event.getPlayer();
     if (this.bean.BeanList.containsKey(p.getUniqueId())) {
@@ -101,7 +101,7 @@ public class Events implements Listener, CommandExecutor {
       p.getWorld().spawnParticle(Particle.FLAME, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ()), 10);
       p.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ()), 10);
     } 
-    if (this.sugar.SugarFly.contains(p.getUniqueId())) {
+    if (this.sugar.sugarFly.contains(p.getUniqueId())) {
       if (((!p.isOnGround() ? 1 : 0) | ((p.getFallDistance() >= 5.0F) ? 1 : 0)) != 0) {
         p.setGliding(true);
       } else {
@@ -113,7 +113,8 @@ public class Events implements Listener, CommandExecutor {
     } 
   }
   
-  @EventHandler
+  @SuppressWarnings("deprecation")
+@EventHandler
   public void onPlayerMove(PlayerMoveEvent event) {
     Player p = event.getPlayer();
     if (this.bean.BeanList.containsKey(p.getUniqueId())) {
@@ -139,12 +140,12 @@ public class Events implements Listener, CommandExecutor {
         p.setVelocity(new Vector(0.0D, 0.1D, 0.0D));
       } 
     } 
-    if (this.sugar.SugarFly.contains(p.getUniqueId()))
+    if (this.sugar.sugarFly.contains(p.getUniqueId()))
       if (((!p.isOnGround() ? 1 : 0) | ((p.getFallDistance() >= 5.0F) ? 1 : 0)) != 0) {
         double num;
         p.setGliding(true);
-        if (this.sugar.SugarList.containsKey(p.getUniqueId()) && ((Integer)this.sugar.SugarList.get(p.getUniqueId())).intValue() >= 1) {
-          num = ((Integer)this.sugar.SugarList.get(p.getUniqueId())).intValue() * 0.2D;
+        if (this.sugar.sugarList.containsKey(p.getUniqueId()) && ((Integer)this.sugar.sugarList.get(p.getUniqueId())).intValue() >= 1) {
+          num = ((Integer)this.sugar.sugarList.get(p.getUniqueId())).intValue() * 0.2D;
         } else {
           num = 0.2D;
         } 
@@ -160,7 +161,7 @@ public class Events implements Listener, CommandExecutor {
   public void onToggleElytra(PlayerToggleFlightEvent e) {
     if (this.bean.BeanList.containsKey(e.getPlayer().getUniqueId()))
       e.setCancelled(true); 
-    if (this.sugar.SugarFly.contains(e.getPlayer().getUniqueId()))
+    if (this.sugar.sugarFly.contains(e.getPlayer().getUniqueId()))
       e.setCancelled(true); 
   }
   
@@ -172,9 +173,9 @@ public class Events implements Listener, CommandExecutor {
       for (PotionEffect effect : player.getActivePotionEffects())
         player.removePotionEffect(effect.getType()); 
     } 
-    if (this.sugar.SugarList.containsKey(player.getUniqueId())) {
-      this.sugar.SugarList.remove(player.getUniqueId());
-      this.sugar.SugarFly.remove(player.getUniqueId());
+    if (this.sugar.sugarList.containsKey(player.getUniqueId())) {
+      this.sugar.sugarList.remove(player.getUniqueId());
+      this.sugar.sugarFly.remove(player.getUniqueId());
       for (PotionEffect effect : player.getActivePotionEffects())
         player.removePotionEffect(effect.getType()); 
     } 
@@ -183,6 +184,11 @@ public class Events implements Listener, CommandExecutor {
       for (PotionEffect effect : player.getActivePotionEffects())
         player.removePotionEffect(effect.getType()); 
     } 
+//    if (this.crystal.CrystalList.containsKey(player.getUniqueId())) {
+//        this.crystal.CrystalList.remove(player.getUniqueId());
+//        for (PotionEffect effect : player.getActivePotionEffects())
+//          player.removePotionEffect(effect.getType()); 
+//    }
   }
   
   @EventHandler
@@ -192,11 +198,11 @@ public class Events implements Listener, CommandExecutor {
       if (((Integer)this.lettuce.LettuceList.get(player.getUniqueId())).intValue() >= 5)
         e.setDeathMessage(player.getName() + " got too high and exploded"); 
       this.lettuce.LettuceList.remove(player.getUniqueId());
-    } else if (this.sugar.SugarList.containsKey(player.getUniqueId())) {
-      if (((Integer)this.sugar.SugarList.get(player.getUniqueId())).intValue() >= 5)
+    } else if (this.sugar.sugarList.containsKey(player.getUniqueId())) {
+      if (((Integer)this.sugar.sugarList.get(player.getUniqueId())).intValue() >= 5)
         e.setDeathMessage(player.getName() + " got too high and died"); 
-      this.sugar.SugarList.remove(player.getUniqueId());
-      this.sugar.SugarFly.remove(player.getUniqueId());
+      this.sugar.sugarList.remove(player.getUniqueId());
+      this.sugar.sugarFly.remove(player.getUniqueId());
     } else if (this.bean.BeanList.containsKey(player.getUniqueId())) {
       if (((Integer)this.bean.BeanList.get(player.getUniqueId())).intValue() >= 5)
         e.setDeathMessage(player.getName() + " eated too much BEAN"); 
@@ -232,6 +238,16 @@ public class Events implements Listener, CommandExecutor {
       assert world != null;
       world.dropItem(loc, this.bean.getBean());
     } 
+    if (Main.CrystalStatus.equalsIgnoreCase("true") && 
+      e.getBlock().getType().equals(Material.AMETHYST_CLUSTER) && 
+      Math.random() < Main.BeanRate.doubleValue()) {
+      e.setDropItems(false);
+      Location loc = e.getBlock().getLocation();
+      World world = loc.getWorld();
+      assert world != null;
+      world.dropItem(loc, this.crystal.getCrystal());
+    } 
+    
   }
   
   @EventHandler
@@ -275,13 +291,13 @@ public class Events implements Listener, CommandExecutor {
         p.getWorld().spawnParticle(Particle.CRIT_MAGIC, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
         p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 100.0F, 1.0F);
         p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_SCREAM, 100.0F, 1.0F);
-        if (this.sugar.SugarList.get(p.getUniqueId()) != null) {
-          this.sugar.SugarList.replace(p.getUniqueId(), Integer.valueOf(((Integer)this.sugar.SugarList.get(p.getUniqueId())).intValue() + 1));
-          if (((Integer)this.sugar.SugarList.get(p.getUniqueId())).intValue() == 1) {
+        if (this.sugar.sugarList.get(p.getUniqueId()) != null) {
+          this.sugar.sugarList.replace(p.getUniqueId(), Integer.valueOf(((Integer)this.sugar.sugarList.get(p.getUniqueId())).intValue() + 1));
+          if (((Integer)this.sugar.sugarList.get(p.getUniqueId())).intValue() == 1) {
             p.sendMessage(ChatColor.RED + "Damn. Ambitious");
-          } else if (((Integer)this.sugar.SugarList.get(p.getUniqueId())).intValue() == 2) {
+          } else if (((Integer)this.sugar.sugarList.get(p.getUniqueId())).intValue() == 2) {
             p.sendMessage(ChatColor.RED + "Jeez");
-          } else if (((Integer)this.sugar.SugarList.get(p.getUniqueId())).intValue() >= 5) {
+          } else if (((Integer)this.sugar.sugarList.get(p.getUniqueId())).intValue() >= 5) {
             p.setHealth(0.0D);
           } else {
             p.sendMessage(ChatColor.RED + "SHEEEEEEEEEEEEEEEEESH");
@@ -318,8 +334,15 @@ public class Events implements Listener, CommandExecutor {
         item.setAmount(item.getAmount() - 1);
         if (item.getAmount() < 1)
           item = null; 
-        p.getInventory().setItemInMainHand(item);
-      } 
+        p.getInventory().setItemInMainHand(item); 
+      
+      } else if (item.getType().equals(Material.AMETHYST_SHARD) && ((ItemMeta)Objects.<ItemMeta>requireNonNull(item.getItemMeta())).getDisplayName().equals(ChatColor.DARK_PURPLE + "Crystals")) {
+        if (Main.CrystalStatus.equalsIgnoreCase("false")) {
+          p.sendMessage(ChatColor.RED + "Crystals is not enabled on this server!");
+          return;
+        } 
+        this.crystal.triggerHigh(p);
+      }
     } 
   }
   
