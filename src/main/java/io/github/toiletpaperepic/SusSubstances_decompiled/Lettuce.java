@@ -90,6 +90,35 @@ public class Lettuce implements Listener {
     } 
   }
   
+  public void PlayerInteract(final Player p, ItemStack item, Lettuce lettuce) {
+	  if (Main.LettuceStatus.equalsIgnoreCase("false")) {
+          p.sendMessage(ChatColor.RED + "Lettuce is not enabled on this server!");
+          return;
+        } 
+        p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 100.0F, 1.0F);
+        p.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 3.0D, p.getLocation().getZ()), 10);
+        p.getWorld().spawnParticle(Particle.SMOKE_NORMAL, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
+        if (lettuce.LettuceList.get(p.getUniqueId()) != null) {
+          lettuce.LettuceList.replace(p.getUniqueId(), Integer.valueOf(((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() + 1));
+          if (((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() == 1) {
+            p.sendMessage(ChatColor.RED + "Damn. Ambitious");
+          } else if (((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() == 2) {
+            p.sendMessage(ChatColor.RED + "Stoned you are");
+          } else if (((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() >= 5) {
+            p.getWorld().createExplosion(p.getLocation(), 3.0F, false);
+            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 10.0F, 1.0F);
+          } else {
+            p.sendMessage(ChatColor.RED + "SHEEEEEEEEEEEEEEEEESH");
+          } 
+        } else {
+          lettuce.triggerHigh(p);
+        } 
+        item.setAmount(item.getAmount() - 1);
+        if (item.getAmount() < 1)
+          item = null; 
+        p.getInventory().setItemInMainHand(item);
+  }
+  
   public void randomVelocity(final Player p) {
     final UUID id = p.getUniqueId();
     final ArrayList<Vector> vectors = getVelocities();

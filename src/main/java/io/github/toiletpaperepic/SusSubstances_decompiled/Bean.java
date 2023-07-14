@@ -4,8 +4,10 @@ import com.google.common.collect.Maps;
 import java.util.HashMap;
 import java.util.UUID;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,5 +52,29 @@ public class Bean {
           }
         }).runTaskLater(this.plugin, 50L);
     } 
+  }
+  
+  public void PlayerInteract(final Player p, ItemStack item, Bean bean) {
+	  p.getWorld().spawnParticle(Particle.SLIME, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
+      p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 100.0F, 1.0F);
+      p.playSound(p.getLocation(), Sound.ENTITY_PARROT_IMITATE_CREEPER, 100.0F, 1.0F);
+      if (bean.BeanList.get(p.getUniqueId()) != null) {
+        bean.BeanList.replace(p.getUniqueId(), Integer.valueOf(((Integer)bean.BeanList.get(p.getUniqueId())).intValue() + 1));
+        if (((Integer)bean.BeanList.get(p.getUniqueId())).intValue() == 1) {
+          p.sendMessage(ChatColor.RED + "Damn. Ambitious");
+        } else if (((Integer)bean.BeanList.get(p.getUniqueId())).intValue() == 2) {
+          p.sendMessage(ChatColor.RED + "Jeez");
+        } else if (((Integer)bean.BeanList.get(p.getUniqueId())).intValue() >= 5) {
+          p.getWorld().createExplosion(p.getLocation(), 3.0F, false);
+        } else {
+          p.sendMessage(ChatColor.RED + "SHEEEEEEEEEEEEEEEEESH");
+        } 
+      } else {
+          bean.triggerHigh(p);
+      } 
+      item.setAmount(item.getAmount() - 1);
+      if (item.getAmount() < 1)
+          item = null; 
+      p.getInventory().setItemInMainHand(item);
   }
 }

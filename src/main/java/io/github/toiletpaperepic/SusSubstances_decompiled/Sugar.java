@@ -1,6 +1,7 @@
 package io.github.toiletpaperepic.SusSubstances_decompiled;
 
 import com.google.common.collect.Maps;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -108,6 +109,34 @@ public class Sugar implements Listener {
                 }
             }.runTaskLater(plugin, 50L);
         }
+    }
+    
+    public void PlayerInteract(final Player p, ItemStack item, Sugar sugar) {
+    	if (Main.SugarStatus.equalsIgnoreCase("false")) {
+            p.sendMessage(ChatColor.RED + "Sugar is not enabled on this server!");
+            return;
+          } 
+          p.getWorld().spawnParticle(Particle.CRIT_MAGIC, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
+          p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 100.0F, 1.0F);
+          p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_SCREAM, 100.0F, 1.0F);
+          if (sugar.sugarList.get(p.getUniqueId()) != null) {
+            sugar.sugarList.replace(p.getUniqueId(), Integer.valueOf(((Integer)sugar.sugarList.get(p.getUniqueId())).intValue() + 1));
+            if (((Integer)sugar.sugarList.get(p.getUniqueId())).intValue() == 1) {
+              p.sendMessage(ChatColor.RED + "Damn. Ambitious");
+            } else if (((Integer)sugar.sugarList.get(p.getUniqueId())).intValue() == 2) {
+              p.sendMessage(ChatColor.RED + "Jeez");
+            } else if (((Integer)sugar.sugarList.get(p.getUniqueId())).intValue() >= 5) {
+              p.setHealth(0.0D);
+            } else {
+              p.sendMessage(ChatColor.RED + "SHEEEEEEEEEEEEEEEEESH");
+            } 
+          } else {
+            sugar.triggerHigh(p);
+          } 
+          item.setAmount(item.getAmount() - 1);
+          if (item.getAmount() < 1)
+            item = null; 
+          p.getInventory().setItemInMainHand(item);
     }
 
     private void randomSounds(Player player) {

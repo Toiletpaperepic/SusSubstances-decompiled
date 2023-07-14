@@ -1,13 +1,13 @@
 name: SusSubstances-decompiled
 main: io.github.toiletpaperepic.SusSubstances_decompiled.Main
-version: 0.0.3-SNAPSHOT
+version: 0.0.4-SNAPSHOT
 api-version: 1.19
 authors: [MasterCoal , toiletpaperepic]
 website: https://github.com/Toiletpaperepic/WallMC-SusSubstances
 commands:
-  wapi:
-    permission: walmartmc.sussy
+  sapi:
+    permission: substances.perms
     permission-message: Unknown command. Type "/help" for help.
 permissions:
-  walmartmc.sussy:
+  substances.perms:
     default: op

@@ -12,8 +12,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Main extends JavaPlugin {
     private static Main plugin;
   
+    protected Crystals crystal;
     protected Lettuce lettuce;
     protected Events events;
+    protected Sauce sauce;
     protected Sugar sugar;
     protected Bean bean;
   
@@ -41,7 +43,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         config = getConfig();
-        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + " starting up...");
+        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " starting up...");
         loadDefaultConfig();
       
         if (!plugin.getConfig().getBoolean("enable-plugin")) {
@@ -50,8 +52,10 @@ public final class Main extends JavaPlugin {
             return;
         }
       
-        lettuce = new Lettuce();
         events = new Events(this);
+        crystal = new Crystals();
+        lettuce = new Lettuce();
+        sauce = new Sauce();
         sugar = new Sugar();
         bean = new Bean();
         registerConfig();
@@ -64,7 +68,7 @@ public final class Main extends JavaPlugin {
     public void onDisable() {
         if (plugin.getConfig().getBoolean("enable-plugin")) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " shutting down...");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + " Goodbye!");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " Goodbye!");
         } else {
             Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabling plugin...");
         }
@@ -72,6 +76,7 @@ public final class Main extends JavaPlugin {
   
     private void loadDefaultConfig() {
         config.addDefault("enable-plugin", true);
+        config.addDefault("original-Text", true);
         config.addDefault("lettuce.enabled", true);
         config.addDefault("lettuce.drop-rate", 0.3);
         config.addDefault("sugar.enabled", true);
@@ -87,22 +92,8 @@ public final class Main extends JavaPlugin {
     }
   
     static void registerConfig() {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.WHITE + " registering substances...");
-      
-        LettuceStatus = plugin.getConfig().getString("lettuce.enabled");
-        LettuceRate = plugin.getConfig().getDouble("lettuce.drop-rate", 0.3);
-        if (LettuceRate.isNaN()) {
-            plugin.getConfig().set("lettuce.drop-rate", 0.3);
-        }
-      
-        if (LettuceStatus != null && LettuceStatus.equalsIgnoreCase("true")) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled lettuce");
-        } else {
-            LettuceStatus = "false";
-            plugin.getConfig().set("lettuce.enabled", false);
-            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled lettuce");
-        }
-      
+    	Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " registering substances...");
+    	
         SugarStatus = plugin.getConfig().getString("sugar.enabled");
         SugarRate = plugin.getConfig().getDouble("sugar.drop-rate", 0.3);
         if (SugarRate.isNaN()) {
@@ -115,6 +106,20 @@ public final class Main extends JavaPlugin {
             SugarStatus = "false";
             plugin.getConfig().set("sugar.enabled", false);
             Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled sugar");
+        }
+        
+        LettuceStatus = plugin.getConfig().getString("lettuce.enabled");
+        LettuceRate = plugin.getConfig().getDouble("lettuce.drop-rate", 0.3);
+        if (LettuceRate.isNaN()) {
+            plugin.getConfig().set("lettuce.drop-rate", 0.3);
+        }
+      
+        if (LettuceStatus != null && LettuceStatus.equalsIgnoreCase("true")) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled lettuce");
+        } else {
+            LettuceStatus = "false";
+            plugin.getConfig().set("lettuce.enabled", false);
+            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabled lettuce");
         }
       
         BeanStatus = plugin.getConfig().getString("bean.enabled");
