@@ -45,11 +45,12 @@ public class Crystals {
 		p.damage(5);
 	}
 	p.playSound(p.getLocation(), Sound.ENTITY_EVOKER_PREPARE_ATTACK, 100.0F, 1.0F);
-	p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 50, true));
+	//removed from the game or spigot
+	// p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 50, true));
 	p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 700, 50, true));
-	p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 800, 4, true));
+	p.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 800, 4, true));
 	p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 50, true));
-//	p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 300, 50, true));
+	p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 300, 50, true));
 	(new BukkitRunnable() {
 		@Override
         public void run() {

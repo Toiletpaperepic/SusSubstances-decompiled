@@ -1,13 +1,15 @@
 package io.github.toiletpaperepic.SusSubstances_decompiled;
 
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.NamespacedKey;
+import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 
 public final class Main extends JavaPlugin {
     private static Main plugin;
@@ -21,16 +23,18 @@ public final class Main extends JavaPlugin {
   
     private FileConfiguration config;
 
+    static String SpecialSauceStatus;
+    static Double SpecialSauceRate;
+    static String CrystalStatus;
     static String LettuceStatus;
     static Double LettuceRate;
     static String SugarStatus;
-    static Double SugarRate;
-    static String BeanStatus;
-    static Double BeanRate;
-    static String CrystalStatus;
     static Double CrystalRate;
-    static String SpecialSauceStatus;
-    static Double SpecialSauceRate;
+    static String BeanStatus;
+    static Double SugarRate;
+    static Double BeanRate;
+
+    static Logger log;
   
     public Main() {
         plugin = this;
@@ -39,36 +43,39 @@ public final class Main extends JavaPlugin {
     public static Main getInstance() {
         return plugin;
     }
-  
+    
     @Override
     public void onEnable() {
+        log = getLogger();
         config = getConfig();
-        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " starting up...");
+        log.log(Level.INFO, " starting up...");
         loadDefaultConfig();
-      
+        
         if (!plugin.getConfig().getBoolean("enable-plugin")) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " You have disabled the plugin in the config...");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-      
+        
         events = new Events(this);
         crystal = new Crystals();
         lettuce = new Lettuce();
         sauce = new Sauce();
         sugar = new Sugar();
         bean = new Bean();
+
+        
         registerConfig();
         registerGlow();
-      
-        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " finished!");
+
+        log.log(Level.INFO, "finished!");
     }
   
     @Override
     public void onDisable() {
         if (plugin.getConfig().getBoolean("enable-plugin")) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " shutting down...");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " Goodbye!");
+            log.log(Level.INFO, " Goodbye!");
         } else {
             Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.RED + " disabling plugin...");
         }
@@ -92,7 +99,7 @@ public final class Main extends JavaPlugin {
     }
   
     static void registerConfig() {
-    	Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " registering substances...");
+    	log.log(Level.INFO ," registering substances...");
     	
         SugarStatus = plugin.getConfig().getString("sugar.enabled");
         SugarRate = plugin.getConfig().getDouble("sugar.drop-rate", 0.3);
@@ -101,7 +108,7 @@ public final class Main extends JavaPlugin {
         }
       
         if (SugarStatus != null && SugarStatus.equalsIgnoreCase("true")) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled sugar");
+            log.log(Level.INFO ," enabled sugar");
         } else {
             SugarStatus = "false";
             plugin.getConfig().set("sugar.enabled", false);
@@ -115,7 +122,7 @@ public final class Main extends JavaPlugin {
         }
       
         if (LettuceStatus != null && LettuceStatus.equalsIgnoreCase("true")) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled lettuce");
+            log.log(Level.INFO ," enabled lettuce");
         } else {
             LettuceStatus = "false";
             plugin.getConfig().set("lettuce.enabled", false);
@@ -129,7 +136,7 @@ public final class Main extends JavaPlugin {
         }
       
         if (BeanStatus != null && BeanStatus.equalsIgnoreCase("true")) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled bean");
+            log.log(Level.INFO ," enabled bean");
         } else {
             BeanStatus = "false";
             plugin.getConfig().set("bean.enabled", false);
@@ -143,7 +150,7 @@ public final class Main extends JavaPlugin {
         }
       
         if (CrystalStatus != null && CrystalStatus.equalsIgnoreCase("true")) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled crystals");
+            log.log(Level.INFO ," enabled crystals");
         } else {
             CrystalStatus = "false";
             plugin.getConfig().set("crystals.enabled", false);
@@ -157,7 +164,7 @@ public final class Main extends JavaPlugin {
         }
       
         if (SpecialSauceStatus != null && SpecialSauceStatus.equalsIgnoreCase("true")) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "SusSubstances-decompiled" + ChatColor.DARK_GRAY + "]" + ChatColor.GREEN + " enabled special sauce");
+            log.log(Level.INFO ," enabled special sauce");
         } else {
             SpecialSauceStatus = "false";
             plugin.getConfig().set("special-sauce.enabled", false);
@@ -175,10 +182,10 @@ public final class Main extends JavaPlugin {
         }
       
         try {
-            NamespacedKey key = new NamespacedKey(this, getDescription().getName());
-            Glow glow = new Glow(key);
+            Glow glow = new Glow(70);
             Enchantment.registerEnchantment(glow);
         } catch (IllegalArgumentException illegalArgumentException) {
+            // what happend here?
         } catch (Exception e) {
             e.printStackTrace();
         }

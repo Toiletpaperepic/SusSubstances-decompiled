@@ -45,8 +45,9 @@ public class Sugar implements Listener {
         final UUID id = player.getUniqueId();
         if (sugarList.get(id) == null) {
             sugarList.put(id, 0);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 150, 1, true));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 1, true));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 150, 1, true));
+            //removed from the game or spigot
+            // player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 1, true));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 150, 10, true));
             player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 1, true));
             player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 100, 1, true));
@@ -88,7 +89,7 @@ public class Sugar implements Listener {
                             }
 
                             Location playerLocation = player.getLocation();
-                            player.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, playerLocation, 10);
+                            player.getWorld().spawnParticle(Particle.EXPLOSION, playerLocation, 10);
                             sugarFly.add(id);
                             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 125, 10, true));
                             player.sendMessage("" + ChatColor.DARK_PURPLE + ChatColor.ITALIC + "boss music plays");
@@ -115,8 +116,9 @@ public class Sugar implements Listener {
     	if (Main.SugarStatus.equalsIgnoreCase("false")) {
             p.sendMessage(ChatColor.RED + "Sugar is not enabled on this server!");
             return;
-          } 
-          p.getWorld().spawnParticle(Particle.CRIT_MAGIC, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
+          }
+        //removed from the game or spigot   
+        //   p.getWorld().spawnParticle(Particle.CRIT_MAGIC, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
           p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 100.0F, 1.0F);
           p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_SCREAM, 100.0F, 1.0F);
           if (sugar.sugarList.get(p.getUniqueId()) != null) {

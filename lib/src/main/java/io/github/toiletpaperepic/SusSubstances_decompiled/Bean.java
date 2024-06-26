@@ -42,7 +42,8 @@ public class Bean {
       p.sendMessage(ChatColor.GREEN + "Yummy");
       p.sendMessage("" + ChatColor.DARK_PURPLE + ChatColor.ITALIC + "*stomach growls*");
       p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 100.0F, 1.0F);
-      p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 50, true));
+      // removed from the game or spigot
+      // p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 50, true));
       p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 100, 50, true));
       (new BukkitRunnable() {
           public void run() {
@@ -55,7 +56,7 @@ public class Bean {
   }
   
   public void PlayerInteract(final Player p, ItemStack item, Bean bean) {
-	  p.getWorld().spawnParticle(Particle.SLIME, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
+	  p.getWorld().spawnParticle(Particle.ITEM_SLIME, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
       p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 100.0F, 1.0F);
       p.playSound(p.getLocation(), Sound.ENTITY_PARROT_IMITATE_CREEPER, 100.0F, 1.0F);
       if (bean.BeanList.get(p.getUniqueId()) != null) {

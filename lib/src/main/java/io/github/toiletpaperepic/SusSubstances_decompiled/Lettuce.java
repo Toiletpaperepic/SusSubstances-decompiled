@@ -43,8 +43,9 @@ public class Lettuce implements Listener {
     final UUID id = p.getUniqueId();
     if (this.LettuceList.get(id) == null) {
       this.LettuceList.put(id, Integer.valueOf(0));
-      p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 120, 50, true));
-      p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 50, 50, true));
+      //removed from the game or spigot
+      // p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 120, 50, true));
+      p.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 50, 50, true));
       p.sendMessage(ChatColor.GREEN + "Yummy");
       (new BukkitRunnable() {
           int i = 0;
@@ -67,7 +68,7 @@ public class Lettuce implements Listener {
               return; 
             Lettuce.this.LettuceList.put(id, Integer.valueOf(1));
             p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 120, 1, true));
-            p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 3, true));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 100, 3, true));
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 10, true));
             p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 1, true));
             p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 100, 1, true));
@@ -97,7 +98,7 @@ public class Lettuce implements Listener {
         } 
         p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 100.0F, 1.0F);
         p.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 3.0D, p.getLocation().getZ()), 10);
-        p.getWorld().spawnParticle(Particle.SMOKE_NORMAL, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
+        p.getWorld().spawnParticle(Particle.SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
         if (lettuce.LettuceList.get(p.getUniqueId()) != null) {
           lettuce.LettuceList.replace(p.getUniqueId(), Integer.valueOf(((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() + 1));
           if (((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() == 1) {
@@ -158,7 +159,7 @@ public class Lettuce implements Listener {
               int size = sounds.size();
               int random = (new Random()).nextInt(size);
               p.playSound(p.getLocation(), sounds.get(random), 100.0F, 1.0F);
-              p.getWorld().spawnParticle(Particle.TOTEM, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ()), 100);
+              p.getWorld().spawnParticle(Particle.TOTEM_OF_UNDYING, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ()), 100);
             } 
           } else {
             cancel();
