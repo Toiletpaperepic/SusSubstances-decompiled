@@ -1,11 +1,10 @@
-package io.github.toiletpaperepic.SusSubstances_decompiled;
+package io.github.toiletpaperepic.sussubstances_decompiled;
 
 import com.google.common.collect.Maps;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -31,11 +30,10 @@ public class Sugar implements Listener {
     public ItemStack getSugar() {
         ItemStack sugar = new ItemStack(Material.SUGAR);
         sugar.setAmount(1);
+
         ItemMeta itemMeta = sugar.getItemMeta();
         assert itemMeta != null;
-        NamespacedKey key = new NamespacedKey(this.plugin, this.plugin.getDescription().getName());
-        Glow glow = new Glow(key);
-        itemMeta.addEnchant(glow, 1, true);
+    
         itemMeta.setDisplayName(ChatColor.DARK_PURPLE + "Sugar");
         sugar.setItemMeta(itemMeta);
         return sugar;
@@ -113,7 +111,7 @@ public class Sugar implements Listener {
     }
     
     public void PlayerInteract(final Player p, ItemStack item, Sugar sugar) {
-    	if (Main.SugarStatus.equalsIgnoreCase("false")) {
+    	if (Main.SugarItemValues.getStatus() == false) {
             p.sendMessage(ChatColor.RED + "Sugar is not enabled on this server!");
             return;
           }

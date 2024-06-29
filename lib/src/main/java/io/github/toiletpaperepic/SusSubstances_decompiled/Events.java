@@ -1,4 +1,4 @@
-package io.github.toiletpaperepic.SusSubstances_decompiled;
+package io.github.toiletpaperepic.sussubstances_decompiled;
 
 import java.util.Objects;
 import org.bukkit.Bukkit;
@@ -216,44 +216,34 @@ public class Events implements Listener, CommandExecutor {
   
   @EventHandler
   public void onBreak(BlockBreakEvent e) {
-    if (Main.LettuceStatus.equalsIgnoreCase("true") && 
-      e.getBlock().getType().equals(Material.FERN) && 
-      Math.random() < Main.LettuceRate.doubleValue()) {
+    if (Main.LettuceItemValues.getStatus() == true && e.getBlock().getType().equals(Material.FERN) && Math.random() < Main.LettuceItemValues.getRate()) {
       Location loc = e.getBlock().getLocation();
       World world = loc.getWorld();
       assert world != null;
       world.dropItem(loc, this.lettuce.getLettuce());
     } 
-    if (Main.SugarStatus.equalsIgnoreCase("true") && 
-      e.getBlock().getType().equals(Material.SUGAR_CANE) && 
-      Math.random() < Main.SugarRate.doubleValue()) {
+    if (Main.SugarItemValues.getStatus() == true && e.getBlock().getType().equals(Material.SUGAR_CANE) && Math.random() < Main.SugarItemValues.getRate()) {
       e.setDropItems(false);
       Location loc = e.getBlock().getLocation();
       World world = loc.getWorld();
       assert world != null;
       world.dropItem(loc, this.sugar.getSugar());
     } 
-    if (Main.BeanStatus.equalsIgnoreCase("true") && 
-      e.getBlock().getType().equals(Material.COCOA) && 
-      Math.random() < Main.BeanRate.doubleValue()) {
+    if (Main.BeanItemValues.getStatus() == true && e.getBlock().getType().equals(Material.COCOA) && Math.random() < Main.BeanItemValues.getRate()) {
       e.setDropItems(false);
       Location loc = e.getBlock().getLocation();
       World world = loc.getWorld();
       assert world != null;
       world.dropItem(loc, this.bean.getBean());
     } 
-    if (Main.CrystalStatus.equalsIgnoreCase("true") && 
-      e.getBlock().getType().equals(Material.AMETHYST_BLOCK) && 
-      Math.random() < Main.BeanRate.doubleValue()) {
+    if (Main.CrystalItemValues.getStatus() == true && e.getBlock().getType().equals(Material.AMETHYST_BLOCK) && Math.random() < Main.BeanItemValues.getRate()) {
       e.setDropItems(false);
       Location loc = e.getBlock().getLocation();
       World world = loc.getWorld();
       assert world != null;
       world.dropItem(loc, this.crystal.getCrystal());
     } 
-    if (Main.SpecialSauceStatus.equalsIgnoreCase("true") && 
-      e.getBlock().getType().equals(Material.OAK_WOOD) && 
-      Math.random() < Main.BeanRate.doubleValue()) {
+    if (Main.SpecialSauceItemValues.getStatus() == true && e.getBlock().getType().equals(Material.OAK_WOOD) && Math.random() < Main.BeanItemValues.getRate()) {
       e.setDropItems(false);
       Location loc = e.getBlock().getLocation();
       World world = loc.getWorld();

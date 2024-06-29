@@ -1,4 +1,4 @@
-package io.github.toiletpaperepic.SusSubstances_decompiled;
+package io.github.toiletpaperepic.sussubstances_decompiled;
 
 import com.google.common.collect.Maps;
 import java.util.HashMap;
@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -25,11 +24,10 @@ public class Crystals {
   public ItemStack getCrystal() {
     ItemStack crystal = new ItemStack(Material.AMETHYST_SHARD);
     crystal.setAmount(1);
+
     ItemMeta m = crystal.getItemMeta();
     assert m != null;
-    NamespacedKey key = new NamespacedKey(this.plugin, this.plugin.getDescription().getName());
-    Glow glow = new Glow(key);
-    m.addEnchant(glow, 1, true);
+    
     m.setDisplayName(ChatColor.DARK_PURPLE + "Crystals");
     crystal.setItemMeta(m);
     return crystal;
@@ -60,7 +58,7 @@ public class Crystals {
   }
   
   public void PlayerInteract(final Player p, ItemStack item, Crystals crystal) {
-	if (Main.CrystalStatus.equalsIgnoreCase("false")) {
+	if (Main.CrystalItemValues.getStatus() == false) {
         p.sendMessage(ChatColor.RED + "Crystals is not enabled on this server!");
         return;
     } 

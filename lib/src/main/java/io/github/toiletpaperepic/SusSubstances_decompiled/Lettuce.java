@@ -1,4 +1,4 @@
-package io.github.toiletpaperepic.SusSubstances_decompiled;
+package io.github.toiletpaperepic.sussubstances_decompiled;
 
 import com.google.common.collect.Maps;
 import java.util.ArrayList;
@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -29,11 +28,10 @@ public class Lettuce implements Listener {
   public ItemStack getLettuce() {
     ItemStack lettuce = new ItemStack(Material.FERN);
     lettuce.setAmount(1);
+
     ItemMeta m = lettuce.getItemMeta();
     assert m != null;
-    NamespacedKey key = new NamespacedKey(this.plugin, this.plugin.getDescription().getName());
-    Glow glow = new Glow(key);
-    m.addEnchant(glow, 1, true);
+    
     m.setDisplayName(ChatColor.DARK_PURPLE + "Lettuce");
     lettuce.setItemMeta(m);
     return lettuce;
@@ -92,7 +90,7 @@ public class Lettuce implements Listener {
   }
   
   public void PlayerInteract(final Player p, ItemStack item, Lettuce lettuce) {
-	  if (Main.LettuceStatus.equalsIgnoreCase("false")) {
+	  if (Main.LettuceItemValues.getStatus() == false) {
           p.sendMessage(ChatColor.RED + "Lettuce is not enabled on this server!");
           return;
         } 

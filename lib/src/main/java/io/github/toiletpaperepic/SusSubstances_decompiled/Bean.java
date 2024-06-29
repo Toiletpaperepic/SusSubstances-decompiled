@@ -1,21 +1,20 @@
-package io.github.toiletpaperepic.SusSubstances_decompiled;
+package io.github.toiletpaperepic.sussubstances_decompiled;
 
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.inventory.meta.ItemMeta;
 import com.google.common.collect.Maps;
-import java.util.HashMap;
-import java.util.UUID;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.entity.Player;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import java.util.HashMap;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
+import java.util.UUID;
 
 public class Bean {
   public HashMap<UUID, Integer> BeanList = Maps.newHashMap();
@@ -25,11 +24,10 @@ public class Bean {
   public ItemStack getBean() {
     ItemStack bean = new ItemStack(Material.COCOA_BEANS);
     bean.setAmount(1);
+
     ItemMeta m = bean.getItemMeta();
     assert m != null;
-    NamespacedKey key = new NamespacedKey(this.plugin, this.plugin.getDescription().getName());
-    Glow glow = new Glow(key);
-    m.addEnchant(glow, 1, true);
+
     m.setDisplayName(ChatColor.DARK_PURPLE + "Bean");
     bean.setItemMeta(m);
     return bean;

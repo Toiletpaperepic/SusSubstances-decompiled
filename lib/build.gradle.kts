@@ -10,6 +10,10 @@ plugins {
     `java-library`
 }
 
+base {
+    archivesName = rootProject.name
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -42,6 +46,8 @@ dependencies {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

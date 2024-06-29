@@ -1,7 +1,7 @@
 name: SusSubstances-decompiled
-main: io.github.toiletpaperepic.SusSubstances_decompiled.Main
+main: io.github.toiletpaperepic.sussubstances_decompiled.Main
 version: 0.0.4-SNAPSHOT
-api-version: 1.19
+api-version: 1.21
 authors: [MasterCoal , toiletpaperepic]
 website: https://github.com/Toiletpaperepic/WallMC-SusSubstances
 commands:
