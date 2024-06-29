@@ -11,12 +11,11 @@ import org.bukkit.plugin.Plugin;
 
 import com.google.common.collect.Maps;
 
-public class Sauce {
+public class Sauce implements Item {
 	public HashMap<UUID, Integer> CrystalList = Maps.newHashMap();
-	  
 	public Plugin plugin = (Plugin)Main.getPlugin(Main.class);
 	  
-	public ItemStack getSauce() {
+	public ItemStack getitem() {
 	  ItemStack sauce = new ItemStack(Material.HONEY_BOTTLE);
 	  sauce.setAmount(1);
 	  ItemMeta m = sauce.getItemMeta();

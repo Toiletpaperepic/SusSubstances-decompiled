@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -22,12 +21,12 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
-public class Sugar implements Listener {
+public class Sugar implements Item {
     final HashMap<UUID, Integer> sugarList = Maps.newHashMap();
     final ArrayList<UUID> sugarFly = new ArrayList<>();
     final Plugin plugin = Main.getPlugin(Main.class);
 
-    public ItemStack getSugar() {
+    public ItemStack getitem() {
         ItemStack sugar = new ItemStack(Material.SUGAR);
         sugar.setAmount(1);
 

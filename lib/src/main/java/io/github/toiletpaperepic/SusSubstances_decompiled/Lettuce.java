@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -20,12 +19,11 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class Lettuce implements Listener {
+public class Lettuce implements Item {
   public HashMap<UUID, Integer> LettuceList = Maps.newHashMap();
-  
   public Plugin plugin = (Plugin)Main.getPlugin(Main.class);
   
-  public ItemStack getLettuce() {
+  public ItemStack getitem() {
     ItemStack lettuce = new ItemStack(Material.FERN);
     lettuce.setAmount(1);
 

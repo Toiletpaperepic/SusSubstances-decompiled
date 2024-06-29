@@ -26,11 +26,7 @@ public final class Main extends JavaPlugin {
 
     static Logger log;
 
-    public Main() {
-        //TODO: ADD USER BOX ERROR HERE
-        
-        plugin = this;
-    }
+    public Main() {plugin = this;}
 
     public static Main getInstance() { return plugin; }
 
@@ -38,12 +34,12 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         config = getConfig();
         log    = getLogger();
-        log.log(Level.INFO, " starting up...");
+        log.log(Level.INFO, "starting up...");
 
         loadDefaultConfig();
 
         if (!plugin.getConfig().getBoolean("enable-plugin")) {
-            log.log(Level.WARNING," You have disabled the plugin in the config...");
+            log.log(Level.WARNING,"You have disabled the plugin in the config...");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
@@ -61,18 +57,17 @@ public final class Main extends JavaPlugin {
     }
 
     static void registerConfig() {
-        log.log(Level.INFO, " registering substances...");
+        log.log(Level.INFO, "registering substances...");
 
-        SpecialSauceItemValues = readpluginconf("special-sauce");
         LettuceItemValues      = readpluginconf("lettuce");
-        CrystalItemValues      = readpluginconf("crystals");
         SugarItemValues        = readpluginconf("sugar");
         BeanItemValues         = readpluginconf("bean");
+        CrystalItemValues      = readpluginconf("crystals");
+        SpecialSauceItemValues = readpluginconf("special-sauce");
     }
 
     private void loadDefaultConfig() {
         config.addDefault("enable-plugin", true);
-        config.addDefault("original-Text", true);
         config.addDefault("lettuce.enabled", true);
         config.addDefault("lettuce.drop-rate", 0.3);
         config.addDefault("sugar.enabled", true);
@@ -95,26 +90,26 @@ public final class Main extends JavaPlugin {
         public Double getRate() { return rate; }
     }
 
-    private static ItemValues readpluginconf(String item) {
-        Boolean status = plugin.getConfig().getBoolean(item + ".enabled");
-        Double  rate   = plugin.getConfig().getDouble(item + ".drop-rate", 0.3);
+    private static ItemValues readpluginconf(String itemread) {
+        Boolean status = plugin.getConfig().getBoolean(itemread + ".enabled");
+        Double  rate   = plugin.getConfig().getDouble(itemread + ".drop-rate", 0.3);
         if (rate.isNaN()) {
-            plugin.getConfig().set(item + ".drop-rate", 0.3);
+            plugin.getConfig().set(itemread + ".drop-rate", 0.3);
         }
 
         if (status == true) {
-            log.log(Level.INFO, "enabled " + item);
+            log.log(Level.INFO, "enabled " + itemread);
         } else {
             status = false;
-            plugin.getConfig().set(item + ".enabled", status);
-            log.log(Level.INFO, "disabled " + item);
+            plugin.getConfig().set(itemread + ".enabled", status);
+            log.log(Level.INFO, "disabled " + itemread);
         }
 
-        ItemValues doneitem = new ItemValues();
-        doneitem.status     = status;
-        doneitem.rate       = rate;
+        ItemValues item = new ItemValues();
+        item.status     = status;
+        item.rate       = rate;
 
-        return doneitem;
+        return item;
     }
 
     @Override

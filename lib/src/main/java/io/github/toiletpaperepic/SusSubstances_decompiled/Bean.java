@@ -16,12 +16,12 @@ import java.util.HashMap;
 import org.bukkit.Sound;
 import java.util.UUID;
 
-public class Bean {
+public class Bean implements Item {
+  //hashmaps are what player is using the item.
   public HashMap<UUID, Integer> BeanList = Maps.newHashMap();
-  
   public Plugin plugin = (Plugin)Main.getPlugin(Main.class);
   
-  public ItemStack getBean() {
+  public ItemStack getitem() {
     ItemStack bean = new ItemStack(Material.COCOA_BEANS);
     bean.setAmount(1);
 

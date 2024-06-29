@@ -16,12 +16,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Crystals {
+public class Crystals implements Item {
   public HashMap<UUID, Integer> CrystalList = Maps.newHashMap();
-  
   public Plugin plugin = (Plugin)Main.getPlugin(Main.class);
   
-  public ItemStack getCrystal() {
+  public ItemStack getitem() {
     ItemStack crystal = new ItemStack(Material.AMETHYST_SHARD);
     crystal.setAmount(1);
 
