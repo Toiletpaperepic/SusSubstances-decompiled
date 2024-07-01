@@ -1,5 +1,5 @@
-name: SusSubstances-decompiled
-main: io.github.toiletpaperepic.sussubstances_decompiled.Main
+name: SusSubstances
+main: toiletpaperepic.SusSubstances.Main
 version: 0.0.5-SNAPSHOT
 api-version: 1.21
 authors: [MasterCoal , toiletpaperepic]

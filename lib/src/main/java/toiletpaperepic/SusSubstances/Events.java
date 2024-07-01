@@ -1,4 +1,6 @@
-package io.github.toiletpaperepic.sussubstances_decompiled;
+package toiletpaperepic.SusSubstances;
+
+import toiletpaperepic.SusSubstances.Main.ItemValues;
 
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
@@ -9,8 +11,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.command.CommandExecutor;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -20,15 +20,12 @@ import org.bukkit.command.Command;
 import org.bukkit.event.Listener;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-
-import io.github.toiletpaperepic.sussubstances_decompiled.Main.ItemValues;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,15 +33,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Events implements Listener, CommandExecutor {
-    public Crystals crystal = new Crystals();
-    public Lettuce lettuce = new Lettuce();
-    public Sauce sauce = new Sauce();
-    public Sugar sugar = new Sugar();
-    public Bean bean = new Bean();
-
     public Events(Main main) {
-        (Main.getPlugin(Main.class)).getServer().getPluginManager().registerEvents(this, main);
-        ((PluginCommand)Objects.<PluginCommand>requireNonNull(Bukkit.getPluginCommand("sapi"))).setExecutor(this);
+        Main.getPlugin(Main.class).getServer().getPluginManager().registerEvents(this, main);
+        Objects.requireNonNull(Bukkit.getPluginCommand("sapi")).setExecutor(this);
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -77,7 +68,8 @@ public class Events implements Listener, CommandExecutor {
     @SuppressWarnings("deprecation")
     public void onVelEvent(PlayerVelocityEvent event) {
         Player p = event.getPlayer();
-        if (this.bean.BeanList.containsKey(p.getUniqueId()) || this.sugar.sugarFly.contains(p.getUniqueId())) {
+
+        if (Main.bean.BeanList.containsKey(p.getUniqueId()) || Main.sugar.sugarFly.contains(p.getUniqueId())) {
             if (!p.isOnGround() | (p.getFallDistance() >= 5.0F)) {
                 p.setGliding(true);
             } else {
@@ -94,19 +86,18 @@ public class Events implements Listener, CommandExecutor {
                 Particle.CAMPFIRE_COSY_SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ()), 10);
         }
     }
-    
 
     //Leaving these two separate
     @EventHandler
     @SuppressWarnings("deprecation")
     public void onPlayerMove(PlayerMoveEvent event) {
         Player p = event.getPlayer();
-        if (this.bean.BeanList.containsKey(p.getUniqueId())) {
+        if (Main.bean.BeanList.containsKey(p.getUniqueId())) {
             double vec;
-            if (this.bean.BeanList.get(p.getUniqueId()).intValue() == 0) {
+            if (Main.bean.BeanList.get(p.getUniqueId()).intValue() == 0) {
                 vec = 0.1D;
             } else {
-                vec = this.bean.BeanList.get(p.getUniqueId()) * 0.3D;
+                vec = Main.bean.BeanList.get(p.getUniqueId()) * 0.3D;
             }
             if (!p.isOnGround()) {
                 if (!p.isGliding())
@@ -124,12 +115,12 @@ public class Events implements Listener, CommandExecutor {
                 p.setVelocity(new Vector(0.0D, 0.1D, 0.0D));
             }
         }
-        if (this.sugar.sugarFly.contains(p.getUniqueId())) {
+        if (Main.sugar.sugarFly.contains(p.getUniqueId())) {
             if (!p.isOnGround() | (p.getFallDistance() >= 5.0F)) {
                 double num;
                 p.setGliding(true);
-                if (this.sugar.sugarList.containsKey(p.getUniqueId()) && (this.sugar.sugarList.get(p.getUniqueId())).intValue() >= 1) {
-                    num = this.sugar.sugarList.get(p.getUniqueId()) * 0.2D;
+                if (Main.sugar.sugarList.containsKey(p.getUniqueId()) && (Main.sugar.sugarList.get(p.getUniqueId())).intValue() >= 1) {
+                    num = Main.sugar.sugarList.get(p.getUniqueId()) * 0.2D;
                 } else {
                     num = 0.2D;
                 }
@@ -143,16 +134,16 @@ public class Events implements Listener, CommandExecutor {
 
     @EventHandler
     public void onToggleElytra(PlayerToggleFlightEvent e) {
-        if (this.bean.BeanList.containsKey(e.getPlayer().getUniqueId()) || this.sugar.sugarFly.contains(e.getPlayer().getUniqueId()))
+        if (Main.bean.BeanList.containsKey(e.getPlayer().getUniqueId()) || Main.sugar.sugarFly.contains(e.getPlayer().getUniqueId()))
             e.setCancelled(true);
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        handleleave(e, this.lettuce.LettuceList, null);
-        handleleave(e, this.sugar.sugarList, this.sugar.sugarFly);
-        handleleave(e, this.bean.BeanList, null);
-        handleleave(e, this.crystal.CrystalList, null);
+        handleleave(e, Main.lettuce.LettuceList, null);
+        handleleave(e, Main.sugar.sugarList, Main.sugar.sugarFly);
+        handleleave(e, Main.bean.BeanList, null);
+        handleleave(e, Main.crystal.CrystalList, null);
         //add anything else here if you want to
     }
 
@@ -170,10 +161,10 @@ public class Events implements Listener, CommandExecutor {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        handledeath(e, this.lettuce.LettuceList, "died by a exploding battery", null);
-        handledeath(e, this.sugar.sugarList, "died by a exploding battery", this.sugar.sugarFly);
-        handledeath(e, this.bean.BeanList, "died by a exploding battery", null);
-        handledeath(e, this.crystal.CrystalList, "died by a exploding battery", null);
+        handledeath(e, Main.lettuce.LettuceList, "died by a exploding battery", null);
+        handledeath(e, Main.sugar.sugarList, "died by a exploding battery", Main.sugar.sugarFly);
+        handledeath(e, Main.bean.BeanList, "died by a exploding battery", null);
+        handledeath(e, Main.crystal.CrystalList, "died by a exploding battery", null);
         //add anything else here if you want to
     }
 
@@ -191,11 +182,11 @@ public class Events implements Listener, CommandExecutor {
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
-        handlebreak(e, Main.LettuceItemValues, this.lettuce, Material.FERN);
-        handlebreak(e, Main.SugarItemValues, this.sugar, Material.SUGAR_CANE);
-        handlebreak(e, Main.BeanItemValues, this.bean, Material.COCOA);
-        handlebreak(e, Main.CrystalItemValues, this.crystal, Material.AMETHYST_BLOCK);
-        handlebreak(e, Main.SpecialSauceItemValues, this.sauce, Material.OAK_WOOD);
+        handlebreak(e, Main.LettuceItemValues, Main.lettuce, Material.FERN);
+        handlebreak(e, Main.SugarItemValues, Main.sugar, Material.SUGAR_CANE);
+        handlebreak(e, Main.BeanItemValues, Main.bean, Material.COCOA);
+        handlebreak(e, Main.CrystalItemValues, Main.crystal, Material.AMETHYST_BLOCK);
+        handlebreak(e, Main.SpecialSauceItemValues, Main.sauce, Material.OAK_WOOD);
         //add anything else here if you want to
     }
 
@@ -210,57 +201,47 @@ public class Events implements Listener, CommandExecutor {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        if (p.getInventory().getItemInMainHand().getType() != Material.AIR &&
-            (e.getAction().equals(Action.RIGHT_CLICK_AIR) |
-             e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-            ItemStack item = p.getInventory().getItemInMainHand();
-            if (item.getType().equals(Material.FERN) &&
-                ((ItemMeta)Objects.<ItemMeta>requireNonNull(item.getItemMeta()))
+        handleplayerinteract(e, Main.lettuce);
+        handleplayerinteract(e, Main.sugar);
+        handleplayerinteract(e, Main.bean);
+        handleplayerinteract(e, Main.crystal);
+        handleplayerinteract(e, Main.sauce);
+        //add anything else here if you want to
+    }
+
+    private void handleplayerinteract(PlayerInteractEvent event, Item item) {
+        Player p = event.getPlayer();
+        ItemStack itemstack = p.getInventory().getItemInMainHand();
+
+        // Main.log.info("" + itemstack.getType().equals(item.getmaterial()));
+
+        if (itemstack.getType() != Material.AIR && (event.getAction().equals(Action.RIGHT_CLICK_AIR) | event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+            if (itemstack.getType().equals(item.getmaterial()) &&
+                Objects.requireNonNull(itemstack.getItemMeta())
                     .getDisplayName()
-                    .equals(ChatColor.DARK_PURPLE + "Lettuce")) {
-                this.lettuce.PlayerInteract(p, item, this.lettuce);
-            } else if (item.getType().equals(Material.SUGAR) &&
-                       ((ItemMeta)Objects.<ItemMeta>requireNonNull(
-                            item.getItemMeta()))
-                           .getDisplayName()
-                           .equals(ChatColor.DARK_PURPLE + "Sugar")) {
-                this.sugar.PlayerInteract(p, item, this.sugar);
-            } else if (item.getType().equals(Material.COCOA_BEANS) &&
-                       ((ItemMeta)Objects.<ItemMeta>requireNonNull(
-                            item.getItemMeta()))
-                           .getDisplayName()
-                           .equals(ChatColor.DARK_PURPLE + "Bean")) {
-                this.bean.PlayerInteract(p, item, this.bean);
-            } else if (item.getType().equals(Material.AMETHYST_SHARD) &&
-                       ((ItemMeta)Objects.<ItemMeta>requireNonNull(
-                            item.getItemMeta()))
-                           .getDisplayName()
-                           .equals(ChatColor.DARK_PURPLE + "Crystals")) {
-                this.crystal.PlayerInteract(p, item, this.crystal);
+                    .equals(ChatColor.DARK_PURPLE + item.getname())) {
+                item.PlayerInteract(p, itemstack);
             }
         }
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
+        handleplace(e, Main.lettuce);
+        handleplace(e, Main.sugar);
+        handleplace(e, Main.bean);
+        handleplace(e, Main.crystal);
+        handleplace(e, Main.sauce);
+    }
+
+    private void handleplace(BlockPlaceEvent e, Item item) {
         Player p = e.getPlayer();
         if (p.getInventory().getItemInMainHand().getType() != Material.AIR) {
-            ItemStack item = p.getInventory().getItemInMainHand();
-            if (item.getType().equals(Material.FERN) &&
-                ((ItemMeta)Objects.<ItemMeta>requireNonNull(item.getItemMeta()))
+            ItemStack itemstack = p.getInventory().getItemInMainHand();
+            if (itemstack.getType().equals(item.getmaterial()) &&
+                Objects.requireNonNull(itemstack.getItemMeta())
                     .getDisplayName()
-                    .equals(ChatColor.DARK_PURPLE + "Lettuce")) {
-                e.setCancelled(true);
-                e.getBlock()
-                    .getWorld()
-                    .getBlockAt(e.getBlock().getLocation())
-                    .setType(Material.AIR);
-            }
-            if (item.getType().equals(Material.COCOA_BEANS) &&
-                ((ItemMeta)Objects.<ItemMeta>requireNonNull(item.getItemMeta()))
-                    .getDisplayName()
-                    .equals(ChatColor.DARK_PURPLE + "Bean")) {
+                    .equals(ChatColor.DARK_PURPLE + item.getname())) {
                 e.setCancelled(true);
                 e.getBlock()
                     .getWorld()

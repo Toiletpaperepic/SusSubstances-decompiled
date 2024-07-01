@@ -1,4 +1,4 @@
-package io.github.toiletpaperepic.sussubstances_decompiled;
+package toiletpaperepic.SusSubstances;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,12 +9,12 @@ import org.bukkit.Bukkit;
 public final class Main extends JavaPlugin {
     private static Main plugin;
 
-    protected Crystals crystal;
-    protected Lettuce  lettuce;
-    protected Events   events;
-    protected Sauce    sauce;
-    protected Sugar    sugar;
-    protected Bean     bean;
+    static Crystals crystal;
+    static Lettuce  lettuce;
+    static Events   events;
+    static Sauce    sauce;
+    static Sugar    sugar;
+    static Bean     bean;
 
     private FileConfiguration config;
 
@@ -23,13 +23,12 @@ public final class Main extends JavaPlugin {
     static ItemValues CrystalItemValues;
     static ItemValues SugarItemValues;
     static ItemValues BeanItemValues;
-
+    
     static Logger log;
-
+    
     public Main() {plugin = this;}
-
     public static Main getInstance() { return plugin; }
-
+    
     @Override
     public void onEnable() {
         config = getConfig();
@@ -45,6 +44,7 @@ public final class Main extends JavaPlugin {
         }
 
         events  = new Events(this);
+
         crystal = new Crystals();
         lettuce = new Lettuce();
         sauce   = new Sauce();

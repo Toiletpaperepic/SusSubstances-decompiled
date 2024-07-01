@@ -1,4 +1,5 @@
-package io.github.toiletpaperepic.sussubstances_decompiled;
+package toiletpaperepic.SusSubstances;
+
 
 import com.google.common.collect.Maps;
 import java.util.ArrayList;
@@ -22,15 +23,18 @@ import org.bukkit.util.Vector;
 public class Lettuce implements Item {
   public HashMap<UUID, Integer> LettuceList = Maps.newHashMap();
   public Plugin plugin = (Plugin)Main.getPlugin(Main.class);
+
+  public String getname() {return "Lettuce";};
+  public Material getmaterial() {return Material.FERN;};
   
   public ItemStack getitem() {
-    ItemStack lettuce = new ItemStack(Material.FERN);
+    ItemStack lettuce = new ItemStack(getmaterial());
     lettuce.setAmount(1);
 
     ItemMeta m = lettuce.getItemMeta();
     assert m != null;
     
-    m.setDisplayName(ChatColor.DARK_PURPLE + "Lettuce");
+    m.setDisplayName(ChatColor.DARK_PURPLE + getname());
     lettuce.setItemMeta(m);
     return lettuce;
   }
@@ -87,11 +91,14 @@ public class Lettuce implements Item {
     } 
   }
   
-  public void PlayerInteract(final Player p, ItemStack item, Lettuce lettuce) {
+  public void PlayerInteract(final Player p, ItemStack item) {
 	  if (Main.LettuceItemValues.getStatus() == false) {
           p.sendMessage(ChatColor.RED + "Lettuce is not enabled on this server!");
           return;
         } 
+
+        Lettuce lettuce = this;
+
         p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 100.0F, 1.0F);
         p.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 3.0D, p.getLocation().getZ()), 10);
         p.getWorld().spawnParticle(Particle.SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
