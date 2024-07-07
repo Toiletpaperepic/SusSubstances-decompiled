@@ -14,25 +14,33 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 public class Sauce implements Item {
-	public HashMap<UUID, Integer> CrystalList = Maps.newHashMap();
+	public HashMap<UUID, Integer> sauceList = Maps.newHashMap();
 	public Plugin plugin = (Plugin)Main.getPlugin(Main.class);
 
-	public String getname() {return "Sauce";};
-    public Material getmaterial() {return Material.HONEY_BLOCK;};
+	private ItemValues itemvalues = new ItemValues();
+
+    public ItemValues getitemvalues() {
+        itemvalues.block = Material.OAK_WOOD;
+        itemvalues.material = Material.HONEY_BLOCK;
+        itemvalues.deathmessage = "somehow died";
+        itemvalues.ItemList = sauceList;
+        itemvalues.name = "Sauce";
+        return itemvalues;
+    };
 	  
-	public ItemStack getitem() {
-	  ItemStack sauce = new ItemStack(getmaterial());
+	public ItemStack getitemsstack() {
+	  ItemStack sauce = new ItemStack(getitemvalues().material);
 	  sauce.setAmount(1);
 	  ItemMeta m = sauce.getItemMeta();
 	  assert m != null;
 	  
-	  m.setDisplayName(ChatColor.DARK_PURPLE + getname());
+	  m.setDisplayName(ChatColor.DARK_PURPLE + getitemvalues().name);
 	  sauce.setItemMeta(m);
 	  return sauce;
 	}
 
 	public void PlayerInteract(final Player p, ItemStack item) {
-        p.sendMessage(ChatColor.RED + "Sauce is not implemented!");
-		Main.log.log(Level.SEVERE, "Sauce is not implemented!");
+        p.sendMessage(ChatColor.RED + getitemvalues().name + " is not implemented!");
+		Main.log.log(Level.SEVERE, getitemvalues().name + " is not implemented!");
     }
 }

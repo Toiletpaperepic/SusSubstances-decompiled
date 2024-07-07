@@ -15,27 +15,31 @@ import org.bukkit.Material;
 
 
 public class Crystals implements Item {
-    public HashMap<UUID, Integer> CrystalList = Maps.newHashMap();
+    public HashMap<UUID, Integer> crystalList = Maps.newHashMap();
     public Plugin plugin = (Plugin)Main.getPlugin(Main.class);
 
-    public String getname() { return "Crystals"; };
-    public Material getmaterial() { return Material.AMETHYST_SHARD; };
+    private ItemValues itemvalues = new ItemValues();
 
-    public ItemStack getitem() {
-        ItemStack crystal = new ItemStack(getmaterial());
+    public ItemValues getitemvalues() {
+        itemvalues.block = Material.AMETHYST_SHARD;
+        itemvalues.material = Material.AMETHYST_SHARD;
+        itemvalues.deathmessage = "used a Crystal and died";
+        itemvalues.name = "Crystals";
+        itemvalues.ItemList = crystalList;
+        return itemvalues;
+    };
+
+    public ItemStack getitemsstack() {
+        ItemStack crystal = new ItemStack(getitemvalues().material);
         crystal.setAmount(1);
 
         ItemMeta m = crystal.getItemMeta();
         assert m != null;
 
-        m.setDisplayName(ChatColor.DARK_PURPLE + getname());
+        m.setDisplayName(ChatColor.DARK_PURPLE + getitemvalues().name);
         crystal.setItemMeta(m);
         return crystal;
     }
-
-    private void triggerHigh(Player p) {
-		Main.log.log(Level.SEVERE, "Crystals is not implemented!");
-	}
 
     public void PlayerInteract(final Player p, ItemStack item) {
         p.sendMessage(ChatColor.RED + "Crystals is not implemented!");

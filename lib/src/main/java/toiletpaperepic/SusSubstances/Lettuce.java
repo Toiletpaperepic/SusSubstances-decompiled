@@ -21,28 +21,36 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class Lettuce implements Item {
-  public HashMap<UUID, Integer> LettuceList = Maps.newHashMap();
+  public HashMap<UUID, Integer> lettuceList = Maps.newHashMap();
   public Plugin plugin = (Plugin)Main.getPlugin(Main.class);
 
-  public String getname() {return "Lettuce";};
-  public Material getmaterial() {return Material.FERN;};
+  private ItemValues itemvalues = new ItemValues();
+
+  public ItemValues getitemvalues() {
+      itemvalues.block = Material.FERN;
+      itemvalues.material = Material.FERN;
+      itemvalues.deathmessage = "got too high and exploded";
+      itemvalues.name = "Lettuce";
+      itemvalues.ItemList = lettuceList;
+      return itemvalues;
+  };
   
-  public ItemStack getitem() {
-    ItemStack lettuce = new ItemStack(getmaterial());
+  public ItemStack getitemsstack() {
+    ItemStack lettuce = new ItemStack(getitemvalues().material);
     lettuce.setAmount(1);
 
     ItemMeta m = lettuce.getItemMeta();
     assert m != null;
     
-    m.setDisplayName(ChatColor.DARK_PURPLE + getname());
+    m.setDisplayName(ChatColor.DARK_PURPLE + getitemvalues().name);
     lettuce.setItemMeta(m);
     return lettuce;
   }
   
   public void triggerHigh(final Player p) {
     final UUID id = p.getUniqueId();
-    if (this.LettuceList.get(id) == null) {
-      this.LettuceList.put(id, Integer.valueOf(0));
+    if (lettuceList.get(id) == null) {
+      lettuceList.put(id, Integer.valueOf(0));
       //removed from the game or spigot
       // p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 120, 50, true));
       p.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 50, 50, true));
@@ -60,13 +68,13 @@ public class Lettuce implements Item {
             } 
           }
         }).runTaskTimerAsynchronously(this.plugin, 10L, 10L);
-      if (this.LettuceList.get(id) == null)
+      if (lettuceList.get(id) == null)
         return; 
       (new BukkitRunnable() {
           public void run() {
-            if (Lettuce.this.LettuceList.get(id) == null)
+            if (lettuceList.get(id) == null)
               return; 
-            Lettuce.this.LettuceList.put(id, Integer.valueOf(1));
+            lettuceList.put(id, Integer.valueOf(1));
             p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 120, 1, true));
             p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 100, 3, true));
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 10, true));
@@ -77,9 +85,9 @@ public class Lettuce implements Item {
             Lettuce.this.randomVelocity(p);
             (new BukkitRunnable() {
                 public void run() {
-                  Lettuce.this.LettuceList.remove(id);
-                  if (Lettuce.this.LettuceList.containsKey(id)) {
-                    Lettuce.this.LettuceList.remove(id);
+                  lettuceList.remove(id);
+                  if (lettuceList.containsKey(id)) {
+                    lettuceList.remove(id);
                     p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 100.0F, 1.0F);
                     Vector vec = new Vector(0, 1, 0);
                     p.setVelocity(vec);
@@ -92,7 +100,7 @@ public class Lettuce implements Item {
   }
   
   public void PlayerInteract(final Player p, ItemStack item) {
-	  if (Main.LettuceItemValues.getStatus() == false) {
+	  if (itemvalues.status == false) {
           p.sendMessage(ChatColor.RED + "Lettuce is not enabled on this server!");
           return;
         } 
@@ -102,13 +110,13 @@ public class Lettuce implements Item {
         p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 100.0F, 1.0F);
         p.getWorld().spawnParticle(Particle.CAMPFIRE_COSY_SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 3.0D, p.getLocation().getZ()), 10);
         p.getWorld().spawnParticle(Particle.SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1.0D, p.getLocation().getZ()), 10);
-        if (lettuce.LettuceList.get(p.getUniqueId()) != null) {
-          lettuce.LettuceList.replace(p.getUniqueId(), Integer.valueOf(((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() + 1));
-          if (((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() == 1) {
+        if (lettuceList.get(p.getUniqueId()) != null) {
+          lettuceList.replace(p.getUniqueId(), Integer.valueOf(((Integer)lettuceList.get(p.getUniqueId())).intValue() + 1));
+          if (((Integer)lettuceList.get(p.getUniqueId())).intValue() == 1) {
             p.sendMessage(ChatColor.RED + "Damn. Ambitious");
-          } else if (((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() == 2) {
+          } else if (((Integer)lettuceList.get(p.getUniqueId())).intValue() == 2) {
             p.sendMessage(ChatColor.RED + "Stoned you are");
-          } else if (((Integer)lettuce.LettuceList.get(p.getUniqueId())).intValue() >= 5) {
+          } else if (((Integer)lettuceList.get(p.getUniqueId())).intValue() >= 5) {
             p.getWorld().createExplosion(p.getLocation(), 3.0F, false);
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 10.0F, 1.0F);
           } else {
@@ -128,8 +136,8 @@ public class Lettuce implements Item {
     final ArrayList<Vector> vectors = getVelocities();
     (new BukkitRunnable() {
         public void run() {
-          if (Lettuce.this.LettuceList.containsKey(id)) {
-            if (((Integer)Lettuce.this.LettuceList.get(id)).intValue() > 5) {
+          if (lettuceList.containsKey(id)) {
+            if (((Integer)lettuceList.get(id)).intValue() > 5) {
               cancel();
             } else {
               int size = vectors.size();
@@ -147,16 +155,16 @@ public class Lettuce implements Item {
     final UUID id = p.getUniqueId();
     final ArrayList<Sound> sounds = getSounds();
     if (type.intValue() == 0) {
-      Integer num = this.LettuceList.get(id);
-      this.LettuceList.replace(id, num, Integer.valueOf(num.intValue() + 1));
+      Integer num = lettuceList.get(id);
+      lettuceList.replace(id, num, Integer.valueOf(num.intValue() + 1));
       return;
     } 
     (new BukkitRunnable() {
         public void run() {
-          if (Lettuce.this.LettuceList.get(id) == null)
+          if (lettuceList.get(id) == null)
             cancel(); 
-          if (Lettuce.this.LettuceList.containsKey(id)) {
-            if (((Integer)Lettuce.this.LettuceList.get(id)).intValue() > 5) {
+          if (lettuceList.containsKey(id)) {
+            if (((Integer)lettuceList.get(id)).intValue() > 5) {
               cancel();
             } else {
               int size = sounds.size();

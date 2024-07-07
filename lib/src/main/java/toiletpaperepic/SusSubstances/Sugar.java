@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -24,17 +25,26 @@ public class Sugar implements Item {
     final ArrayList<UUID> sugarFly = new ArrayList<>();
     final Plugin plugin = Main.getPlugin(Main.class);
 
-    public String getname() { return "Sugar"; };
-    public Material getmaterial() { return Material.SUGAR; };
+    private ItemValues itemvalues = new ItemValues();
 
-    public ItemStack getitem() {
-        ItemStack sugar = new ItemStack(getmaterial());
+    public ItemValues getitemvalues() {
+        itemvalues.block = Material.SUGAR_CANE;
+        itemvalues.material = Material.SUGAR;
+        itemvalues.deathmessage = "got too high and died";
+        itemvalues.name = "Sugar";
+        itemvalues.ItemList = sugarList;
+        itemvalues.flylist = sugarFly;
+        return itemvalues;
+    };
+
+    public ItemStack getitemsstack() {
+        ItemStack sugar = new ItemStack(getitemvalues().material);
         sugar.setAmount(1);
 
         ItemMeta itemMeta = sugar.getItemMeta();
         assert itemMeta != null;
 
-        itemMeta.setDisplayName(ChatColor.DARK_PURPLE + getname());
+        itemMeta.setDisplayName(ChatColor.DARK_PURPLE + getitemvalues().name);
         sugar.setItemMeta(itemMeta);
         return sugar;
     }
@@ -128,7 +138,7 @@ public class Sugar implements Item {
     }
 
     public void PlayerInteract(final Player p, ItemStack item) {
-        if (Main.SugarItemValues.getStatus() == false) {
+        if (itemvalues.status == false) {
             p.sendMessage(ChatColor.RED +
                           "Sugar is not enabled on this server!");
             return;
@@ -200,5 +210,39 @@ public class Sugar implements Item {
         sounds.add(Sound.BLOCK_ANVIL_STEP);
         sounds.add(Sound.BLOCK_ENCHANTMENT_TABLE_USE);
         return sounds;
+    }
+
+    @SuppressWarnings("deprecation")
+    public void HandleVelEvent(Player p) {
+        if (sugarFly.contains(p.getUniqueId())) {
+            if (!p.isOnGround() | (p.getFallDistance() >= 5.0F)) {
+                p.setGliding(true);
+            }
+
+            p.getWorld().spawnParticle(
+                Particle.FLAME, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ()),10);
+
+            p.getWorld().spawnParticle(
+                Particle.CAMPFIRE_COSY_SMOKE, new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ()), 10);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public void HandlePlayerMove(Player p) {
+        if (sugarFly.contains(p.getUniqueId())) {
+            if (!p.isOnGround() | (p.getFallDistance() >= 5.0F)) {
+                double num;
+                p.setGliding(true);
+                if (sugarList.containsKey(p.getUniqueId()) && (sugarList.get(p.getUniqueId())).intValue() >= 1) {
+                    num = sugarList.get(p.getUniqueId()) * 0.2D;
+                } else {
+                    num = 0.2D;
+                } 
+
+                p.setVelocity(new Vector(0.0D, num, 0.0D));
+            } else {
+                p.setVelocity(new Vector(0, 1, 0));
+            }
+        }
     }
 }
