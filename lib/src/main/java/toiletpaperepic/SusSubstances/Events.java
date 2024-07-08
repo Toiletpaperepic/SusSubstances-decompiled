@@ -23,12 +23,7 @@ import org.bukkit.Material;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
-import java.util.UUID;
-
-//TODO: remove all handles functions in here.
 
 public class Events implements Listener, CommandExecutor {
     public Events(Main main) {
@@ -96,19 +91,15 @@ public class Events implements Listener, CommandExecutor {
     public void onLeave(PlayerQuitEvent e) {
         for (int i = 0; i < Main.itemslist.size(); i++) {
             ItemValues itemvals = Main.itemslist.get(i).getitemvalues();
-            handleleave(e, itemvals.ItemList, itemvals.flylist);
-        }
-    }
+            Player player = e.getPlayer();
+            if (itemvals.ItemList.containsKey(player.getUniqueId())) {
+                itemvals.ItemList.remove(player.getUniqueId());
 
-    private void handleleave(PlayerQuitEvent quit, HashMap<UUID, Integer> list, ArrayList<UUID> flylist) {
-        Player player = quit.getPlayer();
-        if (list.containsKey(player.getUniqueId())) {
-            list.remove(player.getUniqueId());
-
-            if (!(flylist == null))
-                list.remove(player.getUniqueId());
-            for (PotionEffect effect : player.getActivePotionEffects())
-                player.removePotionEffect(effect.getType());
+                if (!(itemvals.flylist == null))
+                    itemvals.ItemList.remove(player.getUniqueId());
+                for (PotionEffect effect : player.getActivePotionEffects())
+                    player.removePotionEffect(effect.getType());
+            }
         }
     }
 
@@ -116,80 +107,68 @@ public class Events implements Listener, CommandExecutor {
     public void onDeath(PlayerDeathEvent e) {
         for (int i = 0; i < Main.itemslist.size(); i++) {
             ItemValues itemvals = Main.itemslist.get(i).getitemvalues();
-            handledeath(e, itemvals.ItemList, itemvals.deathmessage, itemvals.flylist);
-        }
-    }
+            Player deadplayer = e.getEntity();
+            if (itemvals.ItemList.containsKey(deadplayer.getUniqueId())) {
+                if ((itemvals.ItemList.get(deadplayer.getUniqueId())).intValue() >= 5)
+                    e.setDeathMessage(deadplayer.getName() + " " + itemvals.deathmessage + ".");
+                itemvals.ItemList.remove(deadplayer.getUniqueId());
 
-    private void handledeath(PlayerDeathEvent death, HashMap<UUID, Integer> list, String message, ArrayList<UUID> flylist) {
-        Player deadplayer = death.getEntity();
-        if (list.containsKey(deadplayer.getUniqueId())) {
-            if ((list.get(deadplayer.getUniqueId())).intValue() >= 5)
-                death.setDeathMessage(deadplayer.getName() + " " + message + ".");
-            list.remove(deadplayer.getUniqueId());
-
-            if (!(flylist == null))
-                flylist.remove(deadplayer.getUniqueId());
+                if (!(itemvals.flylist == null))
+                    itemvals.flylist.remove(deadplayer.getUniqueId());
+            }
         }
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
         for (int i = 0; i < Main.itemslist.size(); i++) {
-            handlebreak(e, Main.itemslist.get(i));
-        }
-    }
-
-    private void handlebreak(BlockBreakEvent event, Item item) {
-        if (item.getitemvalues().status == true && event.getBlock().getType() == item.getitemvalues().block && Math.random() < item.getitemvalues().rate) {
-            Location loc = event.getBlock().getLocation();
-            World world = loc.getWorld();
-            assert world != null;
-            world.dropItem(loc, item.getitemsstack());
+            ItemValues itemvals = Main.itemslist.get(i).getitemvalues();
+            if (itemvals.status == true && e.getBlock().getType() == itemvals.block && Math.random() < itemvals.rate) {
+                Location loc = e.getBlock().getLocation();
+                World world = loc.getWorld();
+                assert world != null;
+                world.dropItem(loc, Main.itemslist.get(i).getitemsstack());
+            }
         }
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         for (int i = 0; i < Main.itemslist.size(); i++) {
-            handleplayerinteract(e, Main.itemslist.get(i));
-        }
-    }
+            Player p = e.getPlayer();
+            ItemStack itemstack = p.getInventory().getItemInMainHand();
+            ItemValues itemvals = Main.itemslist.get(i).getitemvalues();
 
-    private void handleplayerinteract(PlayerInteractEvent event, Item item) {
-        Player p = event.getPlayer();
-        ItemStack itemstack = p.getInventory().getItemInMainHand();
+            // Main.log.info("" + itemstack.getType().equals(item.getmaterial()));
 
-        // Main.log.info("" + itemstack.getType().equals(item.getmaterial()));
-
-        if (itemstack.getType() != Material.AIR && (event.getAction().equals(Action.RIGHT_CLICK_AIR) | event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-            if (itemstack.getType().equals(item.getitemvalues().material) &&
-                Objects.requireNonNull(itemstack.getItemMeta())
-                    .getDisplayName()
-                    .equals(ChatColor.DARK_PURPLE + item.getitemvalues().name)) {
-                item.PlayerInteract(p, itemstack);
+            if (itemstack.getType() != Material.AIR && (e.getAction().equals(Action.RIGHT_CLICK_AIR) | e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
+                if (itemstack.getType().equals(itemvals.material) &&
+                    Objects.requireNonNull(itemstack.getItemMeta())
+                        .getDisplayName()
+                        .equals(ChatColor.DARK_PURPLE + itemvals.name)) {
+                    Main.itemslist.get(i).PlayerInteract(p, itemstack);
+                }
             }
         }
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent e) {
-        for (int i = 0; i < Main.itemslist.size(); i++) 
-            handleplace(e, Main.itemslist.get(i));
-    }
-
-    private void handleplace(BlockPlaceEvent e, Item item) {
-        Player p = e.getPlayer();
-        if (p.getInventory().getItemInMainHand().getType() != Material.AIR) {
-            ItemStack itemstack = p.getInventory().getItemInMainHand();
-            if (itemstack.getType().equals(item.getitemvalues().material) &&
-                Objects.requireNonNull(itemstack.getItemMeta())
-                    .getDisplayName()
-                    .equals(ChatColor.DARK_PURPLE + item.getitemvalues().name)) {
-                e.setCancelled(true);
-                e.getBlock()
-                    .getWorld()
-                    .getBlockAt(e.getBlock().getLocation())
-                    .setType(Material.AIR);
+        for (int i = 0; i < Main.itemslist.size(); i++) {
+            Player p = e.getPlayer();
+            ItemValues itemvals = Main.itemslist.get(i).getitemvalues();
+            if (p.getInventory().getItemInMainHand().getType() != Material.AIR) {
+                ItemStack itemstack = p.getInventory().getItemInMainHand();
+                if (itemstack.getType().equals(itemvals.material) &&
+                    Objects.requireNonNull(itemstack.getItemMeta())
+                        .getDisplayName()
+                        .equals(ChatColor.DARK_PURPLE + itemvals.name)) {
+                    e.setCancelled(true);
+                    e.getBlock()
+                        .getWorld()
+                        .getBlockAt(e.getBlock().getLocation())
+                        .setType(Material.AIR);
+                }
             }
         }
     }
