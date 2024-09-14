@@ -1,0 +1,34 @@
+# toggles plugin
+enable-plugin: true
+
+# you can disable or enable certain substances here
+# change the values to true/false depending on what you want
+
+# for the drop chance, 0.1 means 10%, and 1.0 means 100%
+# anything past 1.0 will guarantee a drop
+
+lettuce:
+  enabled: true
+  # when you break a fern
+  drop-rate: 0.3
+
+
+sugar:
+  enabled: true
+  # when you break sugarcane
+  drop-rate: 0.3
+
+bean:
+  enabled: true
+  # when you break cocoa beans
+  drop-rate: 0.3
+
+crystals:
+  enabled: true
+  # when you break quartz
+  drop-rate: 0.3
+
+special-sauce:
+  enabled: true
+  # when you kill a witch
+  drop-rate: 0.9

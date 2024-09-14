@@ -94,7 +94,7 @@ public final class Main extends JavaPlugin {
         return item;
     }
 
-    //makes config.yml
+    ///makes config.yml
     private void loadDefaultConfig() {
         config.addDefault("enable-plugin", true);
 

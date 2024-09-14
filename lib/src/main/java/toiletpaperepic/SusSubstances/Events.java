@@ -65,7 +65,6 @@ public class Events implements Listener, CommandExecutor {
         }
     }
 
-    //Leaving these two separate
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player p = event.getPlayer();

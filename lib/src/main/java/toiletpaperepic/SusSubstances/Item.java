@@ -15,10 +15,10 @@ public interface Item {
     void PlayerInteract(final Player p, ItemStack item);
 
     default void HandlePlayerMove(Player p) {
-        Main.log.warning(getitemvalues().name + " Does not implement HandlePlayerMove!");
+        // Main.log.warning(getitemvalues().name + " Does not implement HandlePlayerMove!");
     }
 
     default void HandleVelEvent(Player p) {
-        Main.log.warning(getitemvalues().name + " Does not implement PlayerMove!");
+        // Main.log.warning(getitemvalues().name + " Does not implement PlayerMove!");
     }
 }
